@@ -1,0 +1,36 @@
+<policies>
+    <inbound>
+        <base />
+        <!-- Capture the start time of the transaction -->
+        <set-variable name="casper_tx_starttime" value="@(DateTime.UtcNow.ToString(&quot;o&quot;))" />
+        <set-backend-service id="apim-generated-policy" backend-id="WebApp_casper" />
+    </inbound>
+    <backend>
+        <base />
+    </backend>
+    <outbound>
+        <base />
+        <!-- Capture the end time -->
+        <set-variable name="casper_tx_endtime" value="@(DateTime.UtcNow.ToString(&quot;o&quot;))" />
+        <!-- Compute duration in milliseconds -->
+        <set-variable name="casper_tx_duration" value="@(
+            (
+                DateTime.Parse((string)context.Variables[&quot;casper_tx_endtime&quot;]) - 
+                DateTime.Parse((string)context.Variables[&quot;casper_tx_starttime&quot;])
+            ).TotalMilliseconds.ToString()
+        )" />
+        <!-- Add custom headers -->
+        <set-header name="X-APIM-TX-STARTTIME" exists-action="override">
+            <value>@((string)context.Variables["casper_tx_starttime"])</value>
+        </set-header>
+        <set-header name="X-APIM-TX-ENDTIME" exists-action="override">
+            <value>@((string)context.Variables["casper_tx_endtime"])</value>
+        </set-header>
+        <set-header name="X-APIM-TX-DURATION" exists-action="override">
+            <value>@((string)context.Variables["casper_tx_duration"])</value>
+        </set-header>
+    </outbound>
+    <on-error>
+        <base />
+    </on-error>
+</policies>
