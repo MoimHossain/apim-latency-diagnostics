@@ -13,7 +13,7 @@ builder.Services.AddHttpClient();
 builder.Services.AddApplicationInsightsTelemetry(options =>
 {
     // Hardcoded instrumentation key - replace with actual key in production
-    options.ConnectionString = "InstrumentationKey=d6ed2722-7b8c-4350-ba39-e3cdc43e7ebb;IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com/;LiveEndpoint=https://westeurope.livediagnostics.monitor.azure.com/;ApplicationId=2ce6b7ee-0cea-4cdd-9f1a-25402734997a";
+    options.ConnectionString = "";
 });
 
 var app = builder.Build();
