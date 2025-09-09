@@ -30,7 +30,11 @@ app.MapPost("/transaction", async (TransactionRequest request, HttpContext conte
 
     var apiUrl = "https://solarapimuat.azure-api.net/casper/transaction";
     var response = await client.PostAsJsonAsync(apiUrl, request);
-
+    // make sure the full response is read
+    if(response.IsSuccessStatusCode)
+    {
+        var body = await response.Content.ReadAsStringAsync();
+    }
 
     var endTime = DateTime.UtcNow;
     var duration = (endTime - startTime).TotalMilliseconds;
