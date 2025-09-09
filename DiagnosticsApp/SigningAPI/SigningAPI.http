@@ -4,3 +4,15 @@ GET {{SigningAPI_HostAddress}}/weatherforecast/
 Accept: application/json
 
 ###
+POST https://localhost:7058/transaction
+Content-Type: application/json
+
+{
+  "transactionId": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+}
+
+
+
+###
+GET https://localhost:7058/hello
+Content-Type: application/json

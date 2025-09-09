@@ -3,4 +3,12 @@
 GET {{DiagnosticsApp_HostAddress}}/weatherforecast/
 Accept: application/json
 
+
+
 ###
+POST https://solarapimuat.azure-api.net/casper/transaction
+Content-Type: application/json
+
+{
+  "transactionId": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+}
