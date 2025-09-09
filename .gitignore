@@ -416,3 +416,5 @@ FodyWeavers.xsd
 *.msix
 *.msm
 *.msp
+/DiagnosticsApp/DiagnosticsApp/Properties/ServiceDependencies/casper-providerapp - Web Deploy
+/DiagnosticsApp/SigningAPI/Properties/ServiceDependencies/signin - Web Deploy
