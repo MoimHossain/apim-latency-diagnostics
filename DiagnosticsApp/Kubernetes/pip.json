@@ -1,0 +1,37 @@
+{
+  "ddosSettings": {
+    "protectionMode": "VirtualNetworkInherited"
+  },
+  "etag": "W/\"5be0ecb0-7442-4486-a1e2-d8c51a9b49f3\"",
+  "id": "/subscriptions/7f2413b7-93b1-4560-a932-220c34c9db29/resourceGroups/mc_aks-demo-resources_demo-aks_westeurope/providers/Microsoft.Network/publicIPAddresses/kubernetes-a3532c95936d743a49a2260e391427c1",
+  "idleTimeoutInMinutes": 4,
+  "ipAddress": "20.67.14.31",
+  "ipConfiguration": {
+    "id": "/subscriptions/7f2413b7-93b1-4560-a932-220c34c9db29/resourceGroups/mc_aks-demo-resources_demo-aks_westeurope/providers/Microsoft.Network/loadBalancers/kubernetes/frontendIPConfigurations/a3532c95936d743a49a2260e391427c1",
+    "resourceGroup": "mc_aks-demo-resources_demo-aks_westeurope"
+  },
+  "ipTags": [],
+  "location": "westeurope",
+  "name": "kubernetes-a3532c95936d743a49a2260e391427c1",
+  "provisioningState": "Succeeded",
+  "publicIPAddressVersion": "IPv4",
+  "publicIPAllocationMethod": "Static",
+  "resourceGroup": "mc_aks-demo-resources_demo-aks_westeurope",
+  "resourceGuid": "7983eace-6f4d-4eab-8f07-b09a808f224f",
+  "sku": {
+    "name": "Standard",
+    "tier": "Regional"
+  },
+  "tags": {
+    "aks-managed-cluster-name": "demo-aks",
+    "aks-managed-cluster-rg": "aks-demo-resources",
+    "k8s-azure-cluster-name": "kubernetes",
+    "k8s-azure-service": "ingress-nginx/ingress-nginx-controller"
+  },
+  "type": "Microsoft.Network/publicIPAddresses",
+  "zones": [
+    "3",
+    "1",
+    "2"
+  ]
+}

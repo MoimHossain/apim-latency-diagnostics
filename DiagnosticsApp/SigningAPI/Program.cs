@@ -30,7 +30,7 @@ app.MapPost("/transaction", async (TransactionRequest request, HttpContext conte
 
     var client = httpClientFactory.CreateClient();
 
-    var apiUrl = "https://solarapimuat.azure-api.net/casper/transaction";
+    var apiUrl = "https://solarapimuat.azure-api.net/k8s-transaction/transaction";
     var response = await client.PostAsJsonAsync(apiUrl, request);
     
     // Measure time when headers arrive

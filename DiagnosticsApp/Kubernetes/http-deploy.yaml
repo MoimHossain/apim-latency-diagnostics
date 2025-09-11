@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: casper-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: casper-api
+  template:
+    metadata:
+      labels:
+        app: casper-api
+    spec:
+      containers:
+      - name: casper-api
+        image: moimhossain/casper-deom:beta
+        ports:
+        - containerPort: 8080
+        env:
+        - name: ASPNETCORE_URLS
+          value: http://0.0.0.0:8080
+        readinessProbe:
+          httpGet:
+            path: /hello
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /hello
+            port: 8080
+          initialDelaySeconds: 20
+          periodSeconds: 20
+        resources:
+          requests:
+            cpu: 50m
+            memory: 64Mi
+          limits:
+            cpu: 250m
+            memory: 256Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: casper-api-lb
+spec:
+  type: LoadBalancer
+  selector:
+    app: casper-api
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8080

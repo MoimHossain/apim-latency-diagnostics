@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: casper-api-ingress
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt-staging
+    nginx.ingress.kubernetes.io/rewrite-target: /hello  # <-- this line added
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - casper.20-67-14-31.nip.io
+      secretName: casper-api-tls
+  rules:
+    - host: casper.20-67-14-31.nip.io
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: casper-api-svc
+                port:
+                  number: 80

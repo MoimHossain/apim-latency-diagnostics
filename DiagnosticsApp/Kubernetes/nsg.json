@@ -1,0 +1,45 @@
+[
+  {
+    "access": "Allow",
+    "destinationAddressPrefix": "20.67.14.31",
+    "destinationAddressPrefixes": [],
+    "destinationPortRanges": [
+      "443",
+      "80"
+    ],
+    "direction": "Inbound",
+    "etag": "W/\"640052df-c12e-4f24-af3e-5cb9f67a99c4\"",
+    "id": "/subscriptions/7f2413b7-93b1-4560-a932-220c34c9db29/resourceGroups/mc_aks-demo-resources_demo-aks_westeurope/providers/Microsoft.Network/networkSecurityGroups/aks-agentpool-19629544-nsg/securityRules/k8s-azure-lb_allow_IPv4_556f7044ec033071ec0dfcf7cd85bc93",
+    "name": "k8s-azure-lb_allow_IPv4_556f7044ec033071ec0dfcf7cd85bc93",
+    "priority": 500,
+    "protocol": "Tcp",
+    "provisioningState": "Succeeded",
+    "resourceGroup": "mc_aks-demo-resources_demo-aks_westeurope",
+    "sourceAddressPrefix": "Internet",
+    "sourceAddressPrefixes": [],
+    "sourcePortRange": "*",
+    "sourcePortRanges": [],
+    "type": "Microsoft.Network/networkSecurityGroups/securityRules"
+  },
+  {
+    "access": "Allow",
+    "destinationAddressPrefix": "128.251.209.89",
+    "destinationAddressPrefixes": [],
+    "destinationPortRanges": [
+      "80"
+    ],
+    "direction": "Inbound",
+    "etag": "W/\"640052df-c12e-4f24-af3e-5cb9f67a99c4\"",
+    "id": "/subscriptions/7f2413b7-93b1-4560-a932-220c34c9db29/resourceGroups/mc_aks-demo-resources_demo-aks_westeurope/providers/Microsoft.Network/networkSecurityGroups/aks-agentpool-19629544-nsg/securityRules/k8s-azure-lb_allow_IPv4_d39272f7f57ed937951650d93992ad77",
+    "name": "k8s-azure-lb_allow_IPv4_d39272f7f57ed937951650d93992ad77",
+    "priority": 501,
+    "protocol": "Tcp",
+    "provisioningState": "Succeeded",
+    "resourceGroup": "mc_aks-demo-resources_demo-aks_westeurope",
+    "sourceAddressPrefix": "Internet",
+    "sourceAddressPrefixes": [],
+    "sourcePortRange": "*",
+    "sourcePortRanges": [],
+    "type": "Microsoft.Network/networkSecurityGroups/securityRules"
+  }
+]

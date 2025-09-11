@@ -1,0 +1,34 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: casper-api-ingress
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: casper.4.175.191.234.nip.io
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: casper-api
+            port:
+              number: 80
+  - host: signin.4.175.191.234.nip.io
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: signin-api
+            port:
+              number: 80
+  tls:
+  - hosts:
+    - casper.4.175.191.234.nip.io
+    - signin.4.175.191.234.nip.io
+    secretName: casper-api-tls-prod

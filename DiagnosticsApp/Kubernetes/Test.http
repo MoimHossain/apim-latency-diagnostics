@@ -1,0 +1,16 @@
+POST https://casper.4.175.191.234.nip.io/transaction
+Content-Type: application/json
+
+{"transactionId":"10000000-0000-0000-0000-000000000000"}
+
+
+
+###
+GET https://casper.4.175.191.234.nip.io/hello
+
+
+### 
+POST https://localhost:7058/transaction
+Content-Type: application/json
+
+{"transactionId":"10000000-0000-0000-0000-000000000000"}

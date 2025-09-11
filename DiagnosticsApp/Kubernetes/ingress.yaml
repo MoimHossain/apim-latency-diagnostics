@@ -1,0 +1,36 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-staging
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"networking.k8s.io/v1","kind":"Ingress","metadata":{"annotations":{"cert-manager.io/cluster-issuer":"letsencrypt-staging","kubernetes.io/ingress.class":"nginx"},"name":"casper-api-ingress","namespace":"default"},"spec":{"ingressClassName":"nginx","rules":[{"host":"casper.20-67-14-31.nip.io","http":{"paths":[{"backend":{"service":{"name":"casper-api-svc","port":{"number":80}}},"path":"/","pathType":"Prefix"}]}}],"tls":[{"hosts":["casper.20-67-14-31.nip.io"],"secretName":"casper-api-tls"}]}}
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+  creationTimestamp: "2025-09-11T05:31:08Z"
+  generation: 4
+  name: casper-api-ingress
+  namespace: default
+  resourceVersion: "64230"
+  uid: 22136f62-65a1-450d-a3c2-f62fe138076b
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: casper.20-67-14-31.nip.io
+    http:
+      paths:
+      - backend:
+          service:
+            name: casper-api-svc
+            port:
+              number: 80
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts:
+    - casper.20-67-14-31.nip.io
+    secretName: casper-api-tls
+status:
+  loadBalancer:
+    ingress:
+    - ip: 20.67.14.31
