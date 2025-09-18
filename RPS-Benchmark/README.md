@@ -15,6 +15,47 @@ Regular mode:
 
 ```bash
 wsl docker run --rm -e TARGET_URL="https://solarapimuat.azure-api.net/casper/transaction" -e VUS=100 -e DURATION=1m -v /mnt/c/GitHub/moimhossain/apim-latency-diagnostics/RPS-Benchmark/scripts:/scripts grafana/k6:latest run /scripts/k6-basic.js       
+
+## **Capture Top Slow Requests (one-liner)**
+
+Collect top 10 slow requests (track up to 500, only consider >=100ms):
+
+```bash
+wsl docker run --rm -e TARGET_URL="https://solarapimuat.azure-api.net/casper/transaction" -e VUS=100 -e DURATION=1m -e TOP_N=10 -e MAX_TRACK=500 -e SLOW_MS=100 -v /mnt/c/GitHub/moimhossain/apim-latency-diagnostics/RPS-Benchmark/scripts:/scripts grafana/k6:latest run /scripts/k6-slow-capture.js
+```
+
+Artifacts produced: `slow-requests.json` in the mounted scripts folder plus console summary.
+
+Env vars:
+- `TOP_N` number of entries to output
+- `MAX_TRACK` size of internal worst list
+- `SLOW_MS` minimum duration to consider (ms, 0 = all)
+
+## **Log Every Slow Request (line-by-line)**
+
+One-liner (logs each request >=150ms as it happens; collects up to 2000 worst):
+```bash
+wsl docker run --rm -e TARGET_URL="https://solarapimuat.azure-api.net/casper/transaction" -e VUS=100 -e DURATION=30s -e SLOW_MS=150 -e TOP_N_SUMMARY=10 -e MAX_COLLECT=2000 -v /mnt/c/GitHub/moimhossain/apim-latency-diagnostics/RPS-Benchmark/scripts:/scripts grafana/k6:latest run /scripts/k6-slow-log.js
+```
+
+Sample console line:
+```
+SLOW_REQ corr=6a9e3c4e-b0f9-4b71-8f4e-0b1d8d7c1d3c dur_ms=412 status=200
+```
+
+After test, artifacts in `scripts/`:
+- `slow-requests-lines.txt` (all logged slow lines)
+- `slow-requests-top.json` (top N JSON summary)
+
+Extract the 5 worst from the text file (WSL bash example):
+```bash
+grep '^corr=' /mnt/c/GitHub/moimhossain/apim-latency-diagnostics/RPS-Benchmark/scripts/slow-requests-lines.txt | awk '{print $1,$2,$3}' | sed 's/corr=//;s/dur_ms=//;s/status=//' | sort -k2 -nr | head -5
+```
+
+Or from console buffer (if you captured output):
+```bash
+grep 'SLOW_REQ corr=' run.log | awk '{for(i=1;i<=NF;i++){if($i~"^corr=")c=$i; if($i~"^dur_ms=")d=$i; if($i~"^status=")s=$i;} print c,d,s;}' | sed 's/corr=//;s/dur_ms=//;s/status=//' | sort -k2 -nr | head -10
+```
 ```
 
 ## **WSL run with Enhanced Stats**
