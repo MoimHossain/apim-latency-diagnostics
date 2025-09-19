@@ -1,0 +1,10 @@
+
+###
+POST https://solarapimuat.azure-api.net/my-api/fetchMetrics/34343-435434-34234-mdsf
+Content-Type: application/json
+
+{ "x": "sdsd" }
+
+
+# 34343-435434-34234-mdsf 9s
+# proxy table? 200ms
