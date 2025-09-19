@@ -31,6 +31,51 @@ Env vars:
 - `MAX_TRACK` size of internal worst list
 - `SLOW_MS` minimum duration to consider (ms, 0 = all)
 
+## **Send Each Request to Application Insights**
+
+One-liner (per-request telemetry -> App Insights traces):
+```bash
+wsl docker run --rm -e TARGET_URL="https://solarapimuat.azure-api.net/casper/transaction" -e APPINSIGHTS_IKEY="<your-appinsights-instrumentation-key>" -e VUS=50 -e DURATION=2m -e BATCH_SIZE=5 -e FLUSH_INTERVAL_MS=2000 -e SAMPLING=1 -v /mnt/c/GitHub/moimhossain/apim-latency-diagnostics/RPS-Benchmark/scripts:/scripts grafana/k6:latest run /scripts/k6-azmon.js
+```
+
+Adjust:
+- `BATCH_SIZE` >1 to reduce ingestion overhead (sends that many items per POST when buffer fills or flush interval fires).
+- `SAMPLING=0.1` to send only 10% of requests if volume is high.
+- `SLOW_MS` not used here; all (sampled) tracked requests are sent.
+
+Query in Application Insights (Kusto):
+```kusto
+traces
+| where customDimensions.testType == "k6-azmon"
+| project timestamp, durationMs=tolong(customDimensions.durationMs), status=tostring(customDimensions.status), correlationId=customDimensions.correlationId, url=customDimensions.url, vu=toint(customDimensions.vu)
+| order by durationMs desc
+| take 50
+```
+
+Filter only very slow (>=300ms) and count:
+```kusto
+traces
+| where customDimensions.testType == "k6-azmon"
+| extend dur=tolong(customDimensions.durationMs)
+| where dur >= 300
+| summarize count(), p95=percentile(dur,95), p99=percentile(dur,99), max=max(dur)
+```
+
+Join with exceptions (if backend logs them):
+```kusto
+traces
+| where customDimensions.testType == "k6-azmon"
+| extend corr=customDimensions.correlationId, dur=tolong(customDimensions.durationMs)
+| join kind=leftouter (
+  exceptions | project corr=tostring(customDimensions['x-correlation-id']), exType=type, exMsg=message, exTs=timestamp
+) on corr
+| where dur >= 300
+| project timestamp, corr, dur, status=customDimensions.status, exType, exMsg
+| order by dur desc
+```
+
+NOTE: If you have a Connection String instead of iKey, extract the GUID after `InstrumentationKey=`.
+
 ## **Log Every Slow Request (line-by-line)**
 
 One-liner (logs each request >=150ms as it happens; collects up to 2000 worst):
