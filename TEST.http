@@ -6,5 +6,28 @@ Content-Type: application/json
 { "x": "sdsd" }
 
 
-# 34343-435434-34234-mdsf 9s
-# proxy table? 200ms
+
+
+### CASPER
+POST https://casper-providerapp-hxb6c9ged6hfapgy.westeurope-01.azurewebsites.net/transaction/3fa85f64-5717-4562-b3fc-2c963f66afa
+Content-Type: application/json
+
+{
+  "transactionId": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+}
+
+### API management
+POST https://solarapimuat.azure-api.net/casper/transaction/3fa85f64-5717-4562-b3fc-2c963f66afa
+Content-Type: application/json
+
+{
+  "transactionId": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+}
+
+### Signing API
+POST https://signin-gjeecgcwgkc7bbau.westeurope-01.azurewebsites.net/transaction/3fa85f64-5717-4562-b3fc-2c963f66afa
+Content-Type: application/json
+
+{
+  "transactionId": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+}
