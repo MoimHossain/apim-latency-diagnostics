@@ -54,6 +54,7 @@ let lastFlush = Date.now();
 let sentCount = 0;
 let flushCalls = 0;
 let failedItems = 0;
+// Each request simply posts to TARGET_URL/{guid} (no query logic needed)
 
 function isoNow() { return new Date().toISOString(); }
 
@@ -130,7 +131,9 @@ function doRequest(track) {
     'x-correlation-id': corr,
     'traceparent': makeTraceParent(corr)
   };
-  const res = http.post(TARGET_URL, body, { headers });
+  const base = TARGET_URL.replace(/\/+$/, '');
+  const requestUrl = `${base}/${corr}`;
+  const res = http.post(requestUrl, body, { headers });
   const dur = Date.now() - start;
   check(res, { 'status<400': r => r.status < 400 });
   if (track) {
@@ -138,7 +141,7 @@ function doRequest(track) {
       correlationId: corr,
       durationMs: dur,
       status: res.status,
-      url: TARGET_URL,
+      url: requestUrl,
       vu: __VU,
       iteration: iterationCounter++,
       startTime: new Date(start).toISOString(),

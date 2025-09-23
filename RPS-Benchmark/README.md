@@ -37,6 +37,11 @@ One-liner (per-request telemetry -> App Insights traces):
 ```bash
 wsl docker run --rm -e TARGET_URL="https://solarapimuat.azure-api.net/casper/transaction" -e APPINSIGHTS_IKEY="<your-appinsights-instrumentation-key>" -e VUS=50 -e DURATION=2m -e BATCH_SIZE=5 -e FLUSH_INTERVAL_MS=2000 -e SAMPLING=1 -v /mnt/c/GitHub/moimhossain/apim-latency-diagnostics/RPS-Benchmark/scripts:/scripts grafana/k6:latest run /scripts/k6-azmon.js
 ```
+Also,Sending to Signing-API  -> API management  -> Casper API
+```bash
+wsl docker run --rm -e TARGET_URL="https://signin-gjeecgcwgkc7bbau.westeurope-01.azurewebsites.net/transaction" -e APPINSIGHTS_IKEY="<your-appinsights-instrumentation-key>" -e VUS=50 -e DURATION=30s -e BATCH_SIZE=5 -e FLUSH_INTERVAL_MS=2000 -e SAMPLING=1 -v /mnt/c/GitHub/moimhossain/apim-latency-diagnostics/RPS-Benchmark/scripts:/scripts grafana/k6:latest run /scripts/k6-azmon.js
+```
+
 
 Adjust:
 - `BATCH_SIZE` >1 to reduce ingestion overhead (sends that many items per POST when buffer fills or flush interval fires).
