@@ -22,6 +22,7 @@ import { textSummary } from 'https://jslib.k6.io/k6-summary/0.0.4/index.js';
   FLUSH_INTERVAL_MS (default 2000) : Force flush buffer at this max interval
   SAMPLING (0-1, default 1) : 1 means send all, 0.1 = 10% sampling
   MAX_BUFFER (default 5000): Max telemetry items to keep before forced flush
+  CLOUD_ROLE (default k6-loadgen): Value for Application Insights tag ai.cloud.role
 
  Output format: Application Insights 'MessageData' items (traces) with customDimensions including:
   correlationId, durationMs, status, url, vu, iteration, startTime, requestBodyBytes
@@ -47,6 +48,7 @@ const FLUSH_INTERVAL_MS = Number(__ENV.FLUSH_INTERVAL_MS || 2000);
 const SAMPLING = Number(__ENV.SAMPLING || 1);
 const MAX_BUFFER = Number(__ENV.MAX_BUFFER || 5000);
 const THINK_MS = Number(__ENV.THINK_MS || 0);
+const CLOUD_ROLE = __ENV.CLOUD_ROLE || 'k6-loadgen';
 
 const ingestionUrl = 'https://dc.services.visualstudio.com/v2/track';
 let buffer = [];
@@ -64,7 +66,7 @@ function makeTelemetry(item) {
     time: item.time,
     iKey: IKEY,
     tags: {
-      'ai.cloud.role': 'k6-loadgen',
+      'ai.cloud.role': CLOUD_ROLE,
       'ai.operation.id': item.correlationId,
       'ai.operation.parentId': item.correlationId.substring(0,16),
       'ai.internal.sdkVersion': 'k6:custom'
