@@ -216,3 +216,13 @@ export function handleSummary(data) {
   }
   return { 'note.txt': `ItemsSent=${sentCount};Failed=${failedItems};Query=traces | where customDimensions.testType == 'k6-azmon'` };
 }
+
+// Extra safety: if the test is aborted early (e.g. very short duration, external stop),
+// k6 still calls teardown; ensure we flush any remaining buffered telemetry.
+export function teardown() {
+  try {
+    flush(true);
+  } catch (e) {
+    console.error('Final flush failed in teardown:', e);
+  }
+}
